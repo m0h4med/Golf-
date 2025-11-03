@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Payroll Statement - October</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 1500px;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        .arabic-text {
+            font-family: 'Arial', 'Tahoma', sans-serif;
+            font-size: 12px;
+            direction: rtl;
+            text-transform: none;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tbody tr:hover {
+            background-color: #f0fff4;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(17, 153, 142, 0.1);
+        }
+
+        td {
+            padding: 14px 10px;
+            color: #333;
+            border-right: 1px solid #f0f0f0;
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        td:first-child {
+            font-weight: 600;
+            color: #11998e;
+        }
+
+        .name-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+        }
+
+        .currency {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+            color: #27ae60;
+        }
+
+        .number-cell {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .notes-cell {
+            font-style: italic;
+            color: #666;
+            min-width: 150px;
+            font-size: 12px;
+        }
+
+        .total-row {
+            background: linear-gradient(135deg, #e8f5f3 0%, #d4f1e8 100%);
+            font-weight: 700;
+            border-top: 3px solid #11998e;
+            border-bottom: 3px solid #11998e;
+        }
+
+        .total-row td {
+            padding: 16px 10px;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .total-row .currency {
+            color: #11998e;
+            font-size: 15px;
+        }
+
+        .vat-row {
+            background: #fff9e6;
+            font-weight: 600;
+        }
+
+        .vat-row td {
+            color: #f57c00;
+            padding: 14px 10px;
+        }
+
+        .grand-total-row {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .grand-total-row td {
+            padding: 18px 10px;
+            color: white;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .grand-total-row .currency {
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #e0f2f1;
+            color: #00796b;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .highlight-note {
+            background: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #f57f17;
+            font-weight: 600;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            tbody tr:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .table-wrapper {
+                padding: 10px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Employee Payroll Statement</h1>
+            <p>October Salary & Allowances Report</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>Name</th>
+                        <th class="arabic-text">أيام عمل الشهر</th>
+                        <th>Present Days</th>
+                        <th>Basic Salary</th>
+                        <th>Due Salary</th>
+                        <th>Overtime Hrs</th>
+                        <th>Abaad Charges</th>
+                        <th>Housing Allow.</th>
+                        <th>Transport Allow.</th>
+                        <th>Ticket Allow.</th>
+                        <th>Net Salary</th>
+                        <th>Net Allowances</th>
+                        <th>Total Due</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number-cell">1</td>
+                        <td class="name-cell">Calum Allison</td>
+                        <td class="number-cell">30</td>
+                        <td class="number-cell">30</td>
+                        <td class="currency">17,000.00</td>
+                        <td class="currency">17,000.00</td>
+                        <td class="number-cell">0</td>
+                        <td class="currency">1,100.00</td>
+                        <td class="currency">4,250.00</td>
+                        <td class="currency">1,700.00</td>
+                        <td class="currency">1,416.67</td>
+                        <td class="currency">17,000.00</td>
+                        <td class="currency">7,366.67</td>
+                        <td class="currency">25,466.67</td>
+                        <td class="notes-cell">Full monthly salary</td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">2</td>
+                        <td class="name-cell">Ryan Stribling</td>
+                        <td class="number-cell">30</td>
+                        <td class="number-cell">30</td>
+                        <td class="currency">12,000.00</td>
+                        <td class="currency">12,000.00</td>
+                        <td class="number-cell">0</td>
+                        <td class="currency">1,100.00</td>
+                        <td class="currency">3,000.00</td>
+                        <td class="currency">1,200.00</td>
+                        <td class="currency">1,000.00</td>
+                        <td class="currency">12,000.00</td>
+                        <td class="currency">5,200.00</td>
+                        <td class="currency">18,300.00</td>
+                        <td class="notes-cell">Full monthly salary</td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">3</td>
+                        <td class="name-cell">Muhammad Asif</td>
+                        <td class="number-cell">30</td>
+                        <td class="number-cell">11</td>
+                        <td class="currency">9,000.00</td>
+                        <td class="currency">3,300.00</td>
+                        <td class="number-cell">0</td>
+                        <td class="currency">1,100.00</td>
+                        <td class="currency">2,250.00</td>
+                        <td class="currency">900.00</td>
+                        <td class="currency">750.00</td>
+                        <td class="currency">3,300.00</td>
+                        <td class="currency">1,430.00</td>
+                        <td class="currency">5,830.00</td>
+                        <td class="notes-cell"><span class="highlight-note">Pay 11 days from October salary</span></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="13" style="text-align: right; padding-right: 20px;">
+                            <strong>SUBTOTAL</strong>
+                        </td>
+                        <td class="currency"><strong>49,596.67</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr class="vat-row">
+                        <td colspan="13" style="text-align: right; padding-right: 20px;">
+                            <strong>VAT 15% (3 Workers)</strong>
+                        </td>
+                        <td class="currency"><strong>495.00</strong></td>
+                        <td></td>
+                    </tr>
+                    <tr class="grand-total-row">
+                        <td colspan="13" style="text-align: right; padding-right: 20px;">
+                            <strong>GRAND TOTAL (Including 15% VAT)</strong>
+                        </td>
+                        <td class="currency"><strong>50,091.67</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Generated on: <span class="badge">October 23, 2025</span> | <span class="badge">3 Workers</span></p>
+            <p style="margin-top: 10px; color: #999;">This is a computer-generated document. All amounts are in local currency.</p>
+        </div>
+    </div>
+</body>
+</html>
